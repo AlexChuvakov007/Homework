@@ -3,9 +3,112 @@
 
 <head>
 <title>История авиастроения</title>
-<meta charset="UTF-8"> 
+<meta charset="UTF-8">
 <meta name="author"
 	content="Manzhurov Alexander">
+
+	<style>
+	html {
+    font-size: 14px; /* задаём размер текста для всего документа, это rem*/
+		}
+	table {
+		border-style: dashed;
+		width: 75vw;
+				}
+	:root {
+  --color: red;
+  --font-size: 45px;
+	--font-size2: 30px;
+	}
+	.cl1,.cl2,.cl3 {
+     color: brown; /* Цвет текста */
+		 font-size: 2em; /* размер текста */
+    }
+  section p {
+     color: var(--color); /* Цвет текста */
+		 opacity: 0.8; /* прозрачность */
+		 transform:rotate(5deg);
+    }
+	#id1223+p {
+     color: blue; /* Цвет текста */
+		 font-size: var(--font-size); /* размер текста */
+    }
+	.cl1>h9 {    /* Поменяет цвет для первой строчки списка с коричневого */
+     color: #79A; /* Цвет текста */
+		 font-size: 2em; /* размер текста также 2em,но реальный размер текста в два раза больше, чем у 2 строчки списка */
+    }
+		.cl3 {
+	     color: brown; /* Цвет текста */
+			 font-size: 4rem; /* Изменил 3-ю строчку списка, и теперь видно, что новые 2em (из селектора выше) = 4rem */
+	    }
+	a:visited {
+     color: var(--color); /* Цвет текста */
+    }
+	tr:nth-child(2n+1) {
+  	font-size: 2rem; /* размер текста относительно корневого 14px*2 */
+  	background: hsl(200 20% 88%);
+		}
+		tr:nth-child(2n) {
+	  	font-size: 150%;
+	  	background: hsl(310 50% 67%);
+			}
+	ul {
+		list-style: none; /* Прячем маркеры списка */
+		}
+	li::before {
+		content: "✿"; /* Добавляем символ */
+    padding-right: 2cm; /* Расстояние от текста до маркеров */
+    color: var(--color); /* Красный цвет маркеров */
+		font-size: var(--font-size);
+		}
+	li::after {
+			content: "✈"; /* Добавляем символ */
+	    padding-left:10vw; /* Расстояние от текста до маркеров */
+	    color: green; /* цвет маркеров */
+			font-size: calc(var(--font-size)*2);
+			}
+			span.inl {display: inline;
+					background: grey;
+					width: 100px;
+					position: static;
+  				height: 100px;
+					animation-name: example;  /* Добавил анимацию */
+						animation-duration: 8s;}
+			span.blc {display: block;
+					background: grey;
+					position: relative;
+  				left: 60px;
+					width: 100px;
+  				height: 100px;
+					animation-name: example;  /* Добавил анимацию */
+					  animation-duration: 8s;
+				}
+			span.inbl {display: inline-block;
+					background: grey;
+					width: 100px;
+	  			height: 100px;
+					animation-name: example;  /* Добавил анимацию */
+						animation-duration: 8s;
+					}
+			td.position {position: fixed; /* зафиксировали позицию ячейки таблицы в середине сайта относительно нашего просмотра */
+  				bottom: 50vh;
+  				right: 50vw;}
+			td.abs {position: absolute; /* зафиксировали позицию ячейки таблицы в середине сайта */
+		  				bottom: 50vh;
+		  				right: 50vw;}
+			body {
+					  background-color: pink;
+					}
+					@media screen and (min-width: 880px) { /* Если ширина экрана меньше 880px, то фон страницы розовый. В обычном случае - светлозелёный */
+					  body {
+					    background-color: lightgreen;
+					  }
+					}
+@keyframes example {    /* За 8 секунд серая заливка меняется на белую */
+										 from {background-color: grey;}
+										to {background-color: white;}
+   </style>
+
 </head>
 
 <body>
@@ -15,18 +118,18 @@
 <article>
 <h2>Авиационная промышленность</h2>
 	<section>
-<h4>Первые заводы</h4>
-Предшественниками зарождения первых заводов авиапромышленности стали ремонтные мастерские, в которых восстанавливалась техника иностранных летчиков, прибывших на показательные выступления.
+<h2>Первые заводы</h2>
+Предшественниками <span class="inl"> зарождения </span> первых <span class="blc">заводов</span> авиапромышленности <span class="inbl">стали</span> ремонтные мастерские, в которых восстанавливалась техника иностранных летчиков, прибывших на показательные выступления.
 <p>Одновременно с заявками на ремонт стали поступать заказы на изготовление самолетов. Русская авиаиндустрия образовалась в 1909 г., а через год начали строиться первые бипланы по конструкции А. Фармана из Франции.
 	</p> </section>
 	<section>
 <h4>Современная авиационная промышленность</h4>
-Особенностью авиапрома России в начале двухтысячных годов стало то, что вместо единого государственного перевозчика организовалось несколько частных предприятий. Так, на 2005 год в стране насчитывалось более 180 независимых компаний.
+<p id=id1223>Особенностью авиапрома России в начале двухтысячных годов стало то, что вместо единого государственного перевозчика организовалось несколько частных предприятий.</p> Так, на 2005 год в стране насчитывалось более 180 независимых компаний.
 <p>Функции и характеристика управления в гражданской авиации сегодня разделены между:</p>
 <ul>
-<li>Росавиацией;</li>
-<li>Ространснадзором;</li>
-<li>Министерством транспорта России.</li>
+<li class="cl1"><h9>Росавиацией;</h9></li>
+<li class="cl2">Ространснадзором;</li>
+<li class="cl3"><h9>Министерством транспорта России.</h9></li>
 </ul>
 	</section>
 </article>
@@ -43,13 +146,13 @@
 </tr>
 <tr>
 <th>Вертолётостроение</th>
-<td>Ка-62</td>
+<td class="abs">Ка-62</td>
 <td>Ми-38</td>
 </tr>
 <tr>
 <th>Двигателестроение</th>
 <td>Семейство ПД-14</td>
-<td>Семейство ПДВ</td>
+<td class="position">Семейство ПДВ</td>
 </tr>
 </tbody>
 </table>
