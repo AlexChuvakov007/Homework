@@ -305,7 +305,274 @@ console.log(c);
 }
 </script>
 
+<script>
+"strict mode";
+console.log('5555555555555555555555555555555555555555555555555555555 DZ');
+//классовое наследие с помощью функции-конструктора
 
+function Insect(name, legs, wings, food) {
+  this.name = name;
+  this.legs = legs;
+  this.wings = wings;
+	this.food = food;
+	this.greeting = function() {
+    console.log('Hi! I\'m ' + this.name + '.' + ' I have '+ this.legs + ' legs and ' + this.wings + ' wings. ' + 'Please, don\'t eat me.')};
+}            //Создал класс насекомых с помощью функции-конструктора, на основе которой дальше буду создавать экземпляры объектов.
+
+
+	let insect1 = new Insect('spider', 8, 0, 'predator');
+let insect2 = new Insect('beatle', 6, 4, 'anyFood');
+
+console.log(insect1.name);
+insect1.greeting();   //Hi! I'm spider. I have 8 legs and null wings. Please, don't eat me.
+insect2.greeting();   //Hi! I'm beatle. I have 6 legs and 4 wings. Please, don't eat me.
+
+
+
+
+
+//классовое наследие с помощью class extends
+
+
+class Insects {                 //Создал класс насекомые
+   constructor(name, legs, wings, food) {              //Создал конструктор класса насекомые
+	   this.name = name;
+	   this.legs = legs;
+	   this.wings = wings;
+	 	this.food = food;}
+	  greeting() {
+			console.log('Hi! I\'m ' + this.name + '.' + ' I have '+ this.legs + ' legs and ' + this.wings + ' wings. ' + 'Please, don\'t eat me.')
+		}
+}
+
+class butterfly extends Insects {     //Бабочки теперь наследуют свойства и методы насекомых
+    constructor(name, legs, wings, food, color) {       	// Добавил бабочкам свойство Цвет
+        super(name, legs, wings, food)                     // Вызвал конструктор класса насекомых
+        this.color = color;
+    }
+		colorinf() {
+			console.log('Also, I\'m ' + this.color + '.')
+		}
+		greeting() {
+			super.greeting()      //Вызвал родительское приветствие
+			this.colorinf()       //Добавил сообщение о цвете
+		}
+	}
+
+			let Bluebutterfly = new butterfly('Blue butterfly', 4, 2, 'nectar', 'Blue');
+
+		console.log(Bluebutterfly.name);
+		Bluebutterfly.greeting();        //Hi! I'm Blue butterfly. I have 4 legs and 2 wings. Please, don't eat me. Also, I'm Blue.
+		Bluebutterfly.colorinf();   //Also, I'm Blue.
+
+
+
+
+// Прототипное наследование и работа с прототипами
+
+function Insectnew(name, legs, wings, food) {     //В конструкторе определил только свойства
+  this.name = name;
+  this.legs = legs;
+  this.wings = wings;
+	this.food = food;
+}
+
+Insectnew.prototype.greeting = function() {    // Приветствие, являющееся методом, определил в прототипе
+  console.log('Hi! I\'m ' + this.name + '.' + ' I have '+ this.legs + ' legs and ' + this.wings + ' wings. ' + 'Please, don\'t eat me.')};
+
+	function butterflynew(name, legs, wings, food, color) {     //Теперь конструктор бабочки наследует свойства конструктора насекомые
+	  Insectnew.call(this, name, legs, wings, food);
+	  this.color = color;            //Добавил новое свойство
+	}
+
+butterflynew.prototype = Object.create(Insectnew.prototype);  //Теперь butterflynew.prototype наследует метод из Insectnew.prototype (а именно приветствие)
+
+console.log(butterflynew.prototype.constructor);            //Видно, что butterflynew.prototype.constructor стало равным Insectnew()
+
+Object.defineProperty(butterflynew.prototype, 'constructor', {
+    value: butterflynew,
+    enumerable: false,            // false, чтобы данное свойство не появлялось в цикле for in (неперечисляемое свойство)
+    writable: true
+		});
+
+console.log(butterflynew.prototype.constructor);       //Проблема решена
+
+
+
+			let Redbutterflynew = new butterflynew('Red butterfly', 4, 2, 'nectar', 'Red');
+
+		console.log(Redbutterflynew.name);
+		Redbutterflynew.greeting();        //Hi! I'm Red butterfly. I have 4 legs and 2 wings. Please, don't eat me.
+
+
+console.log(Object.getPrototypeOf(Redbutterflynew) === butterflynew.prototype);     //true
+
+
+		function spider(name, legs, wings, food) {     //Создал новый прототип
+		  this.name = name;
+		  this.legs = legs;
+		  this.wings = wings;
+			this.food = food;
+		}
+
+		spider.prototype.greeting = function() {
+		  console.log('Hey! I\'m spider, not butterfly.')};
+
+//Теперь поменяю прототип для butterflynew на spider
+
+Object.setPrototypeOf(butterflynew.prototype, spider.prototype);
+{
+			let Redbutterflynew = new butterflynew('Red butterfly', 4, 2, 'nectar', 'Red');
+
+		Redbutterflynew.greeting();        //Hey! I'm spider, not butterfly.     Прототипы успешно заменили
+
+console.log(Object.getPrototypeOf(butterflynew.prototype) === spider.prototype);     //true
+		}
+
+
+
+
+
+console.log('////////////////////////////////////свойства');
+
+let fastSpider = {
+   name: 'fastSpider',
+	 speed: 30
+}
+
+Object.defineProperty(fastSpider, "class", {
+configurable: true,   //Теперь это свойство можно удалить(по умолчанию нельзя)
+ writable: false,      // Нельзя менять value
+ enumerable: false,    //Не перечисляется при выводе ключей или в цикле for in
+ value: 'Insects'
+	});
+
+console.log(fastSpider.class);  //Insects
+
+fastSpider.class = 'Insectssssssssssssssssssssssssssssssssss';
+console.log(fastSpider.class);     //Insects   Значение не изменилось
+
+console.log(Object.keys(fastSpider));     //['name', 'speed']       Свойство class неперечисляемое
+
+
+
+
+Object.defineProperty(fastSpider, "Info", {
+  get: function() {
+    return this.name + ' ' + this.speed;
+  },
+	set: function(value) {
+      var split = value.split(' ');
+      this.name = split[0];
+      this.speed = split[1];
+    }
+});
+
+fastSpider.Info = "slowSPider 10";
+console.log(fastSpider.Info);    //slowSPider 10
+console.log(fastSpider.name);    //slowSPider
+console.log(fastSpider.speed);   //10
+
+
+
+class slowSPider {
+    constructor(name, speed){
+        this.name = name,
+        this.speed = speed
+    }
+    get slow() {
+        return this.speed < 10;
+    }
+		}
+
+let slowspider1 = new slowSPider('slowspider', 7);
+let slowspider2 = new slowSPider('fastspider', 19);
+
+console.log(slowspider1.slow);    //true
+console.log(slowspider2.slow);    //false
+
+
+String.prototype.newMethod = function() {
+	return `${this}`.slice(3);    //Обрезает первые три символа
+}
+let string = "hellooooy";
+console.log(`${string.newMethod()}`);   //looooy
+
+
+class bird {
+  #wings
+  constructor(name) {
+    this.name = name,
+		this.#wings = 2,         //задал приватное свойство
+		console.log(this.#wings)   //2
+  }
+}
+
+let bird1 = new bird('bird1')
+console.log(bird1.name);     //bird1
+//console.log(bird1.#wings);     //Uncaught SyntaxError: Private field '#wings' must be declared in an enclosing class
+
+
+console.log('/////////////////////////////////////Mix-in');
+
+let sayPhrase = {
+  sayHi() {
+  console.log(`Привет, ${this.name}`);
+  },
+  sayBye() {
+  console.log(`Пока, ${this.name}`);
+  }
+};
+
+class Person {
+  constructor(name) {
+    this.name = name;
+  }
+}
+
+Object.assign(Person.prototype, sayPhrase);    // Скопировал методы. теперь Person может сказать Привет и Пока
+
+new Person('Alexander').sayHi(); // Привет, Alexander
+new Person('Alexander').sayBye();  // Пока, Alexander
+
+
+let Mixin1 = (Baseclass) => class extends Baseclass {
+  Method() {
+    console.log('Method from Mixin1');
+    if (super.Method) super.Method();
+  }
+};
+
+let Mixin2 = (Baseclass) => class extends Baseclass {
+	Method() {
+    console.log('Method from Mixin2');
+    if (super.Method) super.Method();
+  }
+};
+
+class Baseclass {     //Это и есть наш базовый класс
+  Method() {
+    console.log('Method from Baseclass');
+  }
+}
+
+class example extends Mixin1(Mixin2(Baseclass)) {
+  Method() {
+    console.log('Method from example');
+    super.Method();
+  }
+}
+
+new example().Method();  //В примере два миксина определяют один и тот же метод, и пока они вызывают "super", оба они будут вызваны, а затем применены.
+
+
+
+
+
+
+
+
+</script>
 
 
 
