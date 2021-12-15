@@ -11,6 +11,7 @@
    xmlns:svg="http://www.w3.org/2000/svg">
   <defs
      id="defs2" />
+  <!--Comment Node-->
   <g
      id="layer1">
     <rect
@@ -260,4 +261,135 @@
        id="path9687"
        d="m 44.543022,101.42391 c 2.576877,2.81278 4.445571,6.16175 6.173859,9.53643 0.631465,1.31289 1.367199,2.58469 1.913278,3.93851 0.380363,0.94298 0.609778,1.93759 0.858716,2.9202 0.762572,3.06997 1.694476,6.10745 2.842263,9.05603 0.378047,0.70318 0.525465,1.75354 1.195194,2.29163 0.118988,0.0956 0.288795,0.24028 0.424791,0.17097 3.86138,-1.96776 3.313443,-1.02478 4.066167,-3.26346 1.674519,-5.60662 3.463999,-11.17728 5.192575,-16.76747 1.154028,-3.7668 2.003872,-7.65732 3.889364,-11.146057 0.809255,-1.421299 2.043555,-2.444527 3.30363,-3.443602 0,0 -3.596621,1.446411 -3.596621,1.446411 v 0 c -1.255708,1.044218 -2.471854,2.118889 -3.243461,3.590642 -1.754466,3.517916 -2.578315,7.366606 -3.67152,11.121126 -1.710539,5.64179 -3.514508,11.25608 -5.416174,16.83605 -0.140174,0.29419 -0.737002,0.96027 -0.420521,0.88258 1.131057,-0.27768 2.095852,-1.0168 3.132151,-1.5483 0.08717,-0.0447 -0.192233,0.12739 -0.281033,0.086 -0.157953,-0.0736 -0.258252,-0.23858 -0.355986,-0.38285 -0.324943,-0.47966 -0.625935,-1.25579 -0.843992,-1.75766 -1.191971,-2.91832 -2.106938,-5.95041 -2.788306,-9.02779 -0.152955,-0.60074 -0.348935,-1.41349 -0.542803,-2.00371 -0.566378,-1.7243 -1.560121,-3.26495 -2.36306,-4.88123 -1.768697,-3.38377 -3.623617,-6.75153 -6.102749,-9.678717 0,0 -3.365762,2.024247 -3.365762,2.024247 z" />
   </g>
+  <text id="textid">This is a text</text>   //Добавил для 13го пункта
+  <text id="textDel">Этот текст будет удалён</text>
+  <script>
+
+//1)	Использовать SVG для выполнения ДЗ
+
+console.log(`${document.documentElement.nodeName}`);
+
+//2) Создание Элемента
+
+let el = document.createElement("new");
+console.log(`${el.nodeName}`);
+
+//3) Получение элементов по селектору
+
+let elmnts = document.getElementsByTagName("rect");
+console.log(`${elmnts[0].id}`);   //rect63
+console.log(`${elmnts[1].id}`);   //rect639
+
+//4) Навигация по DOM
+//4 14) Переход к предыдущему узлу
+
+console.log(document.getElementById("rect639").previousSibling.previousSibling.id);   //rect63
+//Два раза написал previousSibling, тк: "браузеры на основе Gecko вставляют текстовые узлы в документ для представления пробелов в исходной разметке. По этой причине свойство previousSibling может ссылаться на текстовый узел (пробел)"
+
+//4 15) Узлы-потомки
+
+let SVGChild = document.childNodes[1].childNodes;  //смотрим потомков SVG
+console.log(`${SVGChild[1].id}`);  //defs2  // Самым первым в списке идёт пробел, поэтому взял [1]
+
+//4 16) Переход к следующему элементу      Для демонстрации разницы между nextSibling и nextElementSibling создал комментарий между тегами defs и g
+
+console.log(document.getElementById("defs2").nextElementSibling.id);  //layer1
+console.log(document.getElementById("defs2").nextSibling.nextSibling.nodeType); //8   Это как раз наш комментарий
+
+//4 17) Переход к родителю
+
+console.log(document.getElementById("rect63").parentNode.id);   //layer1
+
+//5) Создание текстового узла
+
+let text = document.createTextNode('Созданный текст');     //Далее используется в 18 пункте
+
+//6) Манипуляция атрибутами
+//6 7) Удаление атрибута
+
+document.getElementById("rect63").removeAttribute("style"); //вместо зёленого заливка стала черной
+
+//6 8) Установка атрибута
+
+let atr = document.getElementById("rect639");
+atr.setAttribute("style", "fill:#00ff00;fill-rule:evenodd;stroke-width:0.466383");   //Заменил цвет травы с синей на зелёную
+
+//9) Установка класса 11) Проверка наличия класса
+
+atr.classList.add("639");
+console.log(atr.classList.contains("639"));   //true    Класс установился
+
+//10) Удаление класса 11) Проверка наличия класса
+
+atr.classList.remove("639");
+console.log(atr.classList.contains("639"));   //false  Класс удалён
+
+//12) Установка ID
+
+let comment = document.getElementById("defs2").nextSibling.nextSibling;
+comment.id = "comid";   //Присвоил id комментарию
+console.log(comment.id);     //comid
+
+//13) Изменение HMTL в текстовом виде
+
+console.log(document.getElementById("textid").innerHTML);    //This is a text
+console.log(document.getElementById("textid").innerHTML = "wooow!");   //wooow!
+
+//18) Добавить первым в элемент
+
+document.getElementById("svg5").prepend(text);  // Если открыть средства разработчика, а затем Элементы, то можно увидеть надпись "Созданный текст" перед тегом defs
+
+//19) Добавить последним в элемент
+
+let textlast = document.createTextNode('Текст в конце');
+document.getElementById("svg5").appendChild(textlast);  // Если открыть средства разработчика, а затем Элементы, то можно увидеть надпись "Текст в конце" после тега script
+
+//20) Добавить в середину элемента
+
+let textMiddle = document.createTextNode('Текст в середине');
+let g = document.getElementById("layer1");   // Для задания referense
+document.getElementById("svg5").insertBefore(textMiddle,g);  // Если открыть средства разработчика, а затем Элементы, то можно увидеть надпись "Текст в середине" перед тегом g
+
+//21) Добавить за элементом  22) Добавить перед элементом
+
+let task = document.getElementById("textid");
+task.before('Текст перед');
+task.after('Текст после');   //Результат можно наблюдать аналогично предыдущим 3 пунктам
+
+//23) Удалить элемент из DOM
+
+let textDel = document.getElementById("textDel");
+console.log(document.getElementById("textDel").innerHTML);    //Этот текст будет удалён
+document.getElementById("svg5").removeChild(textDel);
+//console.log(document.getElementById("textDel").innerHTML);    //Выдаёт null
+
+//24) Нормализация содержимого 25) Добавление текстового узла
+
+let textNorm = document.createElement("normalize");
+textNorm.appendChild(document.createTextNode("Нормализованный"));
+textNorm.appendChild(document.createTextNode("Текст"));            //Создал два дочерних текстовых узла для textNorm
+
+textNorm.normalize();   //Дочерние узлы объединились
+document.getElementById("defs2").after(textNorm);
+
+//26) Добавление фрагмента документа
+
+let fragment = document.createDocumentFragment();
+let parentDiv = document.createElement("div");
+let div1 = document.createElement("div1");
+let div2 = document.createElement("div2");
+
+fragment.appendChild(div1);
+fragment.appendChild(div2);   //Добавил два дочерних элемента для fragment
+
+parentDiv.appendChild(fragment);
+console.log(parentDiv.children);   //Дочерним элементом для parentDiv является не fragment, а div1 и div2, так как сам фрагмент не является DOM-элементом, он лишь контейнер для DOM-элементов
+
+//28) Получение элемента по ID
+
+console.log(document.getElementById("textid").innerHTML);  //wooow!
+
+
+
+  </script>
 </svg>
